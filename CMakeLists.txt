@@ -23,12 +23,43 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Add source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE HEADERS "src/*.h")
+# Define engine components
+set(ENGINE_COMPONENTS
+    core
+    rendering
+    physics
+    audio
+    scene
+    math
+    input
+)
+
+# Add source files for each component
+foreach(COMPONENT ${ENGINE_COMPONENTS})
+    file(GLOB_RECURSE ${COMPONENT}_SOURCES "src/${COMPONENT}/*.cpp")
+    file(GLOB_RECURSE ${COMPONENT}_HEADERS "src/${COMPONENT}/*.h")
+    list(APPEND ALL_SOURCES ${${COMPONENT}_SOURCES})
+    list(APPEND ALL_HEADERS ${${COMPONENT}_HEADERS})
+endforeach()
 
 # Create executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${ALL_HEADERS})
 
 # Add include directories
-target_include_directories(${PROJECT_NAME} PRIVATE src)
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# Add shader directory
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE 
+        ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+)
+
+# Add asset directory
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE 
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+)

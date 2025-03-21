@@ -1,18 +1,19 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Debug",
+            "name": "CMake Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/ShadowEngine.exe",
+            "program": "${workspaceFolder}/build/ShadowEngine.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
+            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -20,28 +21,8 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
-        },
-        {
-            "name": "Release",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/Release/ShadowEngine.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "build-release"
+            "preLaunchTask": "cmake: build",
+            "postDebugTask": "run executable"
         }
     ]
 } 

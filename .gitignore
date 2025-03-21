@@ -1,6 +1,10 @@
 # Build directories
 build/
 out/
+# Platform specific builds
+windows/
+linux/
+# Legacy build directories (if any)
 Debug/
 Release/
 x64/

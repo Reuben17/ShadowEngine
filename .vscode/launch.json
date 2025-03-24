@@ -6,7 +6,7 @@
             "name": "CMake Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/ShadowEngine.exe",
+            "program": "${workspaceFolder}/build/windows/x64/Debug/bin/ShadowEngine.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",

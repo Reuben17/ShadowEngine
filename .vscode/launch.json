@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "CMake Debug",
             "type": "cppdbg",
@@ -9,11 +8,16 @@
             "program": "${workspaceFolder}/build/windows/x64/Debug/bin/ShadowEngine.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
-            "environment": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}/build/windows/x64/Debug/bin;${env:PATH}"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
+            "miDebuggerPath": "C:/mingw64/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -22,7 +26,12 @@
                 }
             ],
             "preLaunchTask": "cmake: build",
-            "postDebugTask": "run executable"
+            "postDebugTask": "run executable",
+            "logging": {
+                "engineLogging": true,
+                "trace": true,
+                "traceResponse": true
+            }
         }
     ]
 } 

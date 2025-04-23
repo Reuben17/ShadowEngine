@@ -1,14 +1,12 @@
 #include "Engine.hpp"
 #include <iostream>
+#include <filesystem>
 
 namespace ShadowEngine {
 
 Engine::Engine()
     : m_IsInitialized(false)
     , m_IsRunning(false)
-    , m_WindowTitle("ShadowEngine")
-    , m_WindowWidth(1280)
-    , m_WindowHeight(720)
 {
 }
 
@@ -27,11 +25,12 @@ bool Engine::Initialize(const std::string& windowTitle, int windowWidth, int win
         return false;
     }
 
+    // Store window parameters
     m_WindowTitle = windowTitle;
     m_WindowWidth = windowWidth;
     m_WindowHeight = windowHeight;
 
-    // Initialize window system
+    // Create and initialize window
     if (!InitializeWindow()) {
         std::cerr << "Failed to initialize window!" << std::endl;
         return false;
@@ -68,21 +67,46 @@ void Engine::Run() {
     std::cout << "Engine started running..." << std::endl;
 
     // Main game loop
-    while (m_IsRunning) {
+    while (m_IsRunning && !m_Window->ShouldClose()) {
         // Process input
+        m_Window->PollEvents();
+
         // Update game state
+        // TODO: Implement game state updates
+
         // Render frame
-        // Handle window events
+        // TODO: Implement rendering
+
+        // Swap buffers
+        m_Window->SwapBuffers();
     }
 
     Shutdown();
 }
 
 bool Engine::InitializeWindow() {
-    // TODO: Implement window initialization
-    // This will be implemented when we add the window management system
-    std::cout << "Initializing window system..." << std::endl;
-    return true;
+    Window::Properties props;
+    props.Title = m_WindowTitle;
+    props.Width = m_WindowWidth;
+    props.Height = m_WindowHeight;
+    props.VSync = true;
+    props.Fullscreen = false;
+    
+    // Try to find the icon in different possible locations
+    std::string iconPath = "assets/icons/B.png";
+    if (!std::filesystem::exists(iconPath)) {
+        // Try the build directory
+        iconPath = "build/windows/x64/Debug/bin/assets/icons/tree.png";
+        if (!std::filesystem::exists(iconPath)) {
+            // If icon not found, just continue without it
+            std::cerr << "Warning: Icon file not found. Window will use default icon." << std::endl;
+            iconPath.clear();
+        }
+    }
+    props.IconPath = iconPath;
+
+    m_Window = std::make_unique<Window>(props);
+    return m_Window->Initialize();
 }
 
 bool Engine::InitializeSystems() {

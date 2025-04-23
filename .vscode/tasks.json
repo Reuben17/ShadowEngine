@@ -9,7 +9,8 @@
                 "-B",
                 "build",
                 "-G",
-                "Ninja"
+                "Ninja",
+                "-DCMAKE_BUILD_TYPE=Debug"
             ],
             "group": "build",
             "problemMatcher": []
@@ -32,7 +33,9 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "build"
+                "build",
+                "--config",
+                "Debug"
             ],
             "group": {
                 "kind": "build",
@@ -63,6 +66,34 @@
             },
             "dependsOn": ["cmake: build"],
             "problemMatcher": []
+        },
+        {
+            "label": "cmake: configure release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "build",
+                "-G",
+                "Ninja",
+                "-DCMAKE_BUILD_TYPE=Release"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "cmake: build release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build",
+                "--config",
+                "Release"
+            ],
+            "group": "build",
+            "dependsOn": ["cmake: configure release"],
+            "problemMatcher": ["$gcc"]
         }
     ]
 } 

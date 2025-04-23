@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Window.hpp"
 #include <string>
 #include <memory>
 
@@ -15,7 +16,7 @@ public:
     Engine& operator=(const Engine&) = delete;
 
     // Initialize the engine
-    bool Initialize(const std::string& windowTitle = "ShadowEngine", 
+    bool Initialize(const std::string& windowTitle = "Shadow Engine", 
                    int windowWidth = 1280, 
                    int windowHeight = 720);
 
@@ -28,6 +29,10 @@ public:
     // Get engine instance (singleton pattern)
     static Engine& GetInstance();
 
+    // Window access
+    Window& GetWindow() { return *m_Window; }
+    const Window& GetWindow() const { return *m_Window; }
+
 private:
     // Private initialization methods
     bool InitializeWindow();
@@ -38,10 +43,13 @@ private:
     bool m_IsInitialized;
     bool m_IsRunning;
     
-    // Window properties
+    // Window parameters
     std::string m_WindowTitle;
     int m_WindowWidth;
     int m_WindowHeight;
+    
+    // Window
+    std::unique_ptr<Window> m_Window;
 };
 
 } // namespace ShadowEngine 

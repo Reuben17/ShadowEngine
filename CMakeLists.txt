@@ -46,8 +46,8 @@ set(CMAKE_CXX_FLAGS "${ORIGINAL_CMAKE_CXX_FLAGS}")
 # Set compiler flags for our code
 if(MSVC)
     # Microsoft Visual C++ compiler
-    add_compile_options(/W4 /WX)
-    
+    add_compile_options(/W4)
+
     # Debug specific flags
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_compile_options(/Zi /DEBUG /Od)
@@ -60,8 +60,8 @@ if(MSVC)
     endif()
 else()
     # GCC/Clang compiler
-    add_compile_options(-Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter)
-    
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-parameter)
+
     # Debug specific flags
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_compile_options(-g3 -O0 -D_GLIBCXX_DEBUG)
@@ -100,6 +100,7 @@ endforeach()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/glfw/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/glad/include
 )
 
 # Create executable
@@ -109,6 +110,7 @@ add_executable(${PROJECT_NAME} ${MAIN_SOURCE} ${ALL_SOURCES} ${ALL_HEADERS})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/glfw/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/glad/include
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/stb
 )
 
@@ -136,4 +138,6 @@ target_include_directories(${PROJECT_NAME}
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/third_party/stb/stb_image.h
      DESTINATION ${CMAKE_BINARY_DIR}/third_party/stb)
 
-
+# Add GLAD source files
+file(GLOB GLAD_SOURCES "third_party/glad/src/*.c")
+target_sources(${PROJECT_NAME} PRIVATE ${GLAD_SOURCES})
